@@ -28,11 +28,12 @@ class Secure extends CI_Controller {
 			if($resp){
 
             	$sessionData = [
-            		'is_login' 	=> true,
-            		'user_id'	=> $resp->id,
-            		'name'		=> $resp->first_name.' '.$resp->last_name,
-            		'mobile'	=> $resp->mobile,
-            		'email'		=> $resp->email,
+            		'is_login' 	  => true,
+            		'user_id'	  => $resp->id,
+            		'name'		  => $resp->first_name.' '.$resp->last_name,
+            		'mobile'	  => $resp->mobile,
+                    'email'       => $resp->email,
+            		'profile_pic' => $resp->profile_pic,
             	];
 
             	$this->session->set_userdata($sessionData);

@@ -47,7 +47,14 @@
             <div class="sidebar-collapse">
                 <ul class="nav" id="main-menu">
                     <li class="text-center">
-                        <img src="assets/img/find_user.png" class="user-image img-responsive"/>
+                        <?php 
+                            $src = 'assets/img/find_user.png';
+                            if($this->session->userdata('profile_pic')){
+                                $src = 'data:image/png;base64,'.base64_encode($this->session->userdata('profile_pic'));
+                            }
+                        ?>
+
+                            <img src="<?php echo $src; ?>" class="user-image img-responsive"/>
                     </li>
                     <li>
                         <a class="<?php echo (@$this->active=='dashboard')?'active-menu':'';?>"  href="<?php echo base_url();?>dashboard"><i class="fa fa-dashboard fa-2x"></i> Dashboard</a>
