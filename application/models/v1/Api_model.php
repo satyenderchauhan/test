@@ -8,7 +8,7 @@ class Api_model extends CI_Model
         return $db->select('user_accounts.id, user_accounts.user_type, user_accounts.table_reference')
         ->where('user_accounts.username', $p['username'])
         ->where('user_accounts.password', md5($p['password']))
-        ->where('user_accounts.status', 1)
+        // ->where('user_accounts.status', 1)
         ->get('user_accounts')->row();
     }
 

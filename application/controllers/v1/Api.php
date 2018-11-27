@@ -12,9 +12,9 @@ class Api extends REST_Controller
         $this->load->model('v1/Api_model','api');
     }    
     
-    public function login_post()
+    public function login_get()
     {
-        $data = $this->post();
+        $data = $this->get();
         
         if (!isset($data['username']) || $data['username'] == NULL) {
             $this->response(['status' => 201, 'message' => 'Validation error', 'response' => 'You are not authorizied user'], 200);
@@ -30,9 +30,15 @@ class Api extends REST_Controller
             $this->response(['status' => 201, 'message' => 'Validation error', 'response' => 'Invalid username password'], 200);
         }
 
+        if($resp->status != 1){
+            $this->response(['status' => 201, 'message' => 'Validation error', 'response' => 'Your account has been deactivated, Please contact admin.'], 200);
+        }
+
         if(!$resp->table_reference){
             $this->response(['status' => 201, 'message' => 'Validation error', 'response' => 'You are not authorizied user'], 200);
         }
+
+        $this->checkActivation($resp->id);
 
         $newData=[
             'table' => $resp->table_reference,
@@ -238,4 +244,88 @@ class Api extends REST_Controller
         $this->response(['status' => 200, 'message' => 'Status changed Successfuly', 'response' => ''], 200);
     }
 
+    public function checkActivation($userId)
+    {
+        $db = $this->load->database('default',true);
+        $user = $db->select('user_accounts.id, user_accounts.user_type, user_accounts.status')
+        ->where('id', $userId)
+        ->get('user_accounts')->result()[0];
+        
+        if($user->status != 1){
+            $this->response(['status' => 201, 'message' => 'Validation error', 'response' => 'User in not Active'], 200);
+        }
+
+        if($user->user_type == 2){
+            //EMPLOYEE 
+            $isGymActivated = $this->checkIsGymActivated($userId);
+            $isOwnerActivated = $this->checkIsOwnerActivated($isGymActivated);
+        }
+
+        if($user->user_type == 3){
+            //TRAINNERS 
+            $isGymActivated = $this->checkIsGymActivatedTrainer($userId);
+            $isOwnerActivated = $this->checkIsOwnerActivated($isGymActivated);
+        }
+
+        if($user->user_type == 4){
+            //USER 
+            $isGymActivated = $this->checkIsGymActivatedUser($userId);
+            $isOwnerActivated = $this->checkIsOwnerActivated($isGymActivated);
+        }
+    }
+
+    public function checkIsGymActivated($userId)
+    {
+        $db = $this->load->database('default',true);
+        $gym = $db->select('gyms.id, gyms.status')
+        ->join('gym_employees', 'gyms.id = gym_employees.gym_id')
+        ->where('gym_employees.employee_id', $userId)
+        ->get('gyms')->result();
+
+        if(!$gym || !isset($gym[0]->status) || $gym[0]->status != 1){
+            $this->response(['status' => 201, 'message' => 'Validation error', 'response' => 'Your Gym in not Active'], 200);
+        }
+        return $gym[0]->id;
+    }
+
+    public function checkIsOwnerActivated($gymId)
+    {
+        $db = $this->load->database('default',true);
+        $owner = $db->select('user_accounts.id, user_accounts.status')
+        ->join('gym_owners', 'gym_owners.owner_id = user_accounts.id')
+        ->where('gym_owners.gym_id', $gymId)
+        ->get('user_accounts')->result();
+
+        if(!$owner || !isset($owner[0]->status) || $owner[0]->status != 1){
+            $this->response(['status' => 201, 'message' => 'Validation error', 'response' => 'Your Gym Owner in not Active'], 200);
+        }
+    }
+
+    public function checkIsGymActivatedTrainer($userId)
+    {
+        $db = $this->load->database('default',true);
+        $gym = $db->select('gyms.id, gyms.status')
+        ->join('gym_trainers', 'gyms.id = gym_trainers.gym_id')
+        ->where('gym_trainers.trainer_id', $userId)
+        ->get('gyms')->result();
+
+        if(!$gym || !isset($gym[0]->status) || $gym[0]->status != 1){
+            $this->response(['status' => 201, 'message' => 'Validation error', 'response' => 'Your Gym in not Active'], 200);
+        }
+        return $gym[0]->id;
+    }
+
+    public function checkIsGymActivatedUser($userId)
+    {
+        $db = $this->load->database('default',true);
+        $gym = $db->select('gyms.id, gyms.status')
+        ->join('gym_users', 'gyms.id = gym_users.gym_id')
+        ->where('gym_users.user_id', $userId)
+        ->get('gyms')->result();
+
+        if(!$gym || !isset($gym[0]->status) || $gym[0]->status != 1){
+            $this->response(['status' => 201, 'message' => 'Validation error', 'response' => 'Your Gym in not Active'], 200);
+        }
+        return $gym[0]->id;
+    }
 }
