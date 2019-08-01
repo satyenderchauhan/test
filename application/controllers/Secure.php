@@ -5,9 +5,6 @@ class Secure extends CI_Controller {
 
 	public function signin()
 	{
-		// if($this->user_id!=false)
-  //   		redirect('/dashboard');
-		
         $this->load->library('form_validation');
 
         $this->form_validation->set_rules('username', 'Username', 'required');
@@ -21,7 +18,7 @@ class Secure extends CI_Controller {
         }
         else
         {
-			$data = $this->input->post();
+            $data = $this->input->post();
         	$this->load->model('Secure_model','secure');
 			$resp = $this->secure->signin($data);
 
@@ -31,7 +28,7 @@ class Secure extends CI_Controller {
             		'is_login' 	  => true,
             		'user_id'	  => $resp->id,
             		'name'		  => $resp->first_name.' '.$resp->last_name,
-            		'mobile'	  => $resp->mobile,
+            		'mobile'	  => $this->input->post('username'),
                     'email'       => $resp->email,
             		'profile_pic' => $resp->profile_pic,
             	];

@@ -32,32 +32,27 @@
                  <br />
             </div>
         </div>
-         <div class="row ">
-               
-                  <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
+        <div class="row ">
+            <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
                         <strong>   Enter Login Credientials </strong>  
-                            </div>
-                            <div class="panel-body">
-                                <form role="form" name="login_form" id="login_form" method="post">
-                                       <br />
-                                        <div class="form-group input-group">
-                                            <span class="input-group-addon"><i class="fa fa-tag"  ></i></span>
-                                            <input type="text" class="form-control" placeholder="Your Username " required="true" name="username" id="username" maxlength="10" data-error-text="Enter Mobile Number"/>
-                                        </div>
-                                        <div class="form-group input-group">
-                                            <span class="input-group-addon"><i class="fa fa-lock"  ></i></span>
-                                            <input type="password" id="password" name="password" class="form-control"  placeholder="Your Password" required="true" />
-                                        </div>
-                                     <button class="btn btn-primary" type="submit">Login Now</button>
-                                    </form>
-                            </div>
-                           
-                        </div>
                     </div>
-                
-                
+                    <div class="panel-body">
+                        <form role="form" name="login_form" id="login_form" method="post">
+                            <div class="form-group input-group">
+                                <span class="input-group-addon"><i class="fa fa-tag"  ></i></span>
+                                <input type="text" class="form-control" placeholder="Your Username " required="true" name="username" id="username" maxlength="10" data-error-text="Enter Mobile Number"/>
+                            </div>
+                            <div class="form-group input-group">
+                                <span class="input-group-addon"><i class="fa fa-lock"  ></i></span>
+                                <input type="password" id="password" name="password" class="form-control"  placeholder="Your Password" required="true" />
+                            </div>
+                            <button class="btn btn-primary" type="submit">Login Now</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

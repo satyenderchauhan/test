@@ -5,6 +5,10 @@ class Welcome extends CI_Controller {
 
 	public function index()
 	{
+		if($this->session->userdata('is_login')){
+    		redirect('../dashboard');
+        }
+
 		$this->load->view('login');
 	}
 }

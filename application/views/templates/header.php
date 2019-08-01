@@ -26,6 +26,10 @@
             height: 35px!important;
         }
     </style>
+    <?php
+        $this->load->helper('common');
+        $menu = getMenu();        
+    ?>
 </head>
 <body>
     <div id="wrapper">
@@ -56,24 +60,15 @@
 
                             <img src="<?php echo $src; ?>" class="user-image img-responsive"/>
                     </li>
-                    <li>
-                        <a class="<?php echo (@$this->active=='dashboard')?'active-menu':'';?>"  href="<?php echo base_url();?>dashboard"><i class="fa fa-dashboard fa-2x"></i> Dashboard</a>
-                    </li>
-                    <li>
-                        <a class="<?php echo (@$this->active=='owners')?'active-menu':'';?>" href="<?php echo base_url();?>owners"><i class="fa fa-desktop fa-2x"></i> Gym Owners</a>
-                    </li>
-                    <li>
-                        <a class="<?php echo (@$this->active=='employees')?'active-menu':'';?>" href="<?php echo base_url();?>employees"><i class="fa fa-desktop fa-2x"></i> Gym Employees</a>
-                    </li>
-                    <li>
-                        <a class="<?php echo (@$this->active=='gyms')?'active-menu':'';?>" href="<?php echo base_url();?>gyms"><i class="fa fa-desktop fa-2x"></i> Gyms</a>
-                    </li>
-                    <li>
-                        <a class="<?php echo (@$this->active=='trainers')?'active-menu':'';?>" href="<?php echo base_url();?>trainers"><i class="fa fa-qrcode fa-2x"></i> Trainers</a>
-                    </li>
-                    <li>
-                        <a class="<?php echo (@$this->active=='users')?'active-menu':'';?>" href="<?php echo base_url();?>users"><i class="fa fa-users fa-2x"></i> Users</a>
-                    </li>   
+
+                    <?php foreach ($menu as $key => $value) { ?>
+                        
+                        <li>
+                            <a class="<?php echo (@$this->active==$value->url)?'active-menu':'';?>"  href="<?php echo base_url().$value->url;?>"><i class="<?=$value->icon?> fa-2x"></i> <?=$value->name?></a>
+                        </li>
+
+                    <?php }?>
+                    
                 </ul>
             </div>
         </nav>  

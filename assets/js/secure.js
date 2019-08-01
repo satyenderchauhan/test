@@ -51,6 +51,9 @@ $(function (e) {
             success:function(data){
                 if(data.status == 200){
                     window.location=bu+data.redirect_url;
+                }else{
+                    $('#password').parent().after('<div class="text-error text-left">'+data.message+'</div>');
+                    return false;
                 }
             },
             complete: function(response){

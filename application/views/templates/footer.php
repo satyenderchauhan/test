@@ -15,7 +15,7 @@
 
         var set = {};
         var ajaxRequestOn = false;
-        set.btn_spin_html = '<img src="'+bu+'assets/img/ring-alt.svg" width="25px"> Please wait...' ;
+        set.btn_spin_html = '<i class="fa fa-cog fa-spin"></i> Please wait...' ;
 
         function check(){
             $("#mobile").keypress(function (e){

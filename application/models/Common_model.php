@@ -147,4 +147,17 @@ class Common_model extends CI_Model
             return false;
         }
     }
+
+    public function getMenu()
+    {
+        $db = $this->load->database('default',true);
+        $db->select('*')->from('menu')->where('is_active', '1');
+
+        $qry = $db->get();
+        if ($qry->num_rows() > 0) {
+            return $qry->result();
+        } else {
+            return false;
+        }
+    }
 }
