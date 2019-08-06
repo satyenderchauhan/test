@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Occupations extends CI_Controller {
+class Employees extends CI_Controller {
 
 	public function __construct()
     {
@@ -17,8 +17,8 @@ class Occupations extends CI_Controller {
 
 	public function index()
 	{
-		$this->active = 'occupations';
-		$this->load->view('occupation');
+		$this->active = 'employees';
+		$this->load->view('employees');
 	}
 
 	public function occupationList()
@@ -121,15 +121,82 @@ class Occupations extends CI_Controller {
         die(json_encode($output));
 	}
 
-    public function addOccupation()
+    public function get_new_employee_html(){
+
+        $db = $this->load->database('default',true);
+        $db->select('*')->from('occupation');
+
+        $data = [];
+
+        $qry = $db->get();
+        if ($qry->num_rows() > 0) {
+            $data['all_occupation'] = $qry->result();
+        } else {
+            $data['all_occupation'] = [];
+        }
+
+        $this->load->view('new_employee', $data);
+    }
+
+    public function addEmployee()
     {
         $data = $this->input->post();
         $admin_id = $this->session->userdata('user_id');
         $error = false;
 
-        if(!$data['occupation']){
+        if(!$data['first_name']){
             $error = true;
-            $error_msg[] = 'occupation';
+            $error_msg[] = 'first_name';
+        }
+
+        if(!$data['last_name']){
+            $error = true;
+            $error_msg[] = 'last_name';
+        }
+
+        if(!$data['mobile']){
+            $error = true;
+            $error_msg[] = 'mobile';
+        }
+
+        if(!$data['age']){
+            $error = true;
+            $error_msg[] = 'age';
+        }
+
+        if(!$data['gender']){
+            $error = true;
+            $error_msg[] = 'gender';
+        }
+
+        if(!$data['address']){
+            $error = true;
+            $error_msg[] = 'address';
+        }
+
+        if(!$data['city']){
+            $error = true;
+            $error_msg[] = 'city';
+        }
+
+        if(!$data['state']){
+            $error = true;
+            $error_msg[] = 'state';
+        }
+
+        if(!$data['experience']){
+            $error = true;
+            $error_msg[] = 'experience';
+        }
+
+        if(!$data['approx_salary']){
+            $error = true;
+            $error_msg[] = 'approx_salary';
+        }
+
+        if(!$data['bio']){
+            $error = true;
+            $error_msg[] = 'bio';
         }
 
         if($error){
@@ -138,36 +205,65 @@ class Occupations extends CI_Controller {
 
         $param  = [
             'db'      => 'read',
-            'ptable'  => 'occupation',
+            'ptable'  => 'user_accounts',
             'column'  => ['id'],
-            'where'   => " where occupation = '".$data['occupation']."'",
+            'where'   => " where username = '".$data['mobile']."'",
         ];
         
         if($this->common->getTableData($param)){
-            die(json_encode(['status'=>'202','msg'=>'Occupation is already existed']));
+            die(json_encode(['status'=>'202','msg'=>'Mobile number is already existed']));
         }
 
-        $newdata = [
-            'occupation' => ucfirst($data['occupation']),
-            'created_by' => $admin_id
-        ];
+        $userAccountData = [];
 
-        if(!$this->common->insert(['table' => 'occupation', 'data' => $newdata])){
+        $data['username'] = $data['mobile'];
+        unset($data['mobile']);
+
+        foreach ($data as $key => $value) {
+            if(in_array($key,['username','first_name','last_name','email','profile_pic'])){
+                if($value){
+                    $userAccountData[$key] = $value;
+                }
+            }
+        }
+
+        $userAccountData['role'] = '2';
+        $id = $this->common->insert(['table' => 'user_accounts', 'data' => $userAccountData]);
+
+        if(!$id){
 
             die(json_encode(['status'=>'202','msg'=>'Something went wrong, Please try again!']));
         }
 
+        foreach ($data['location'] as $value) {
+            
+            if($value){
+                $this->common->insert(['table' => 'employee_locations', 'data' => ['user_id'=>$id,'location'=>$value]]);
+            }
+        }
+
+        unset($data['username']);
+        unset($data['first_name']);
+        unset($data['last_name']);
+        unset($data['email']);
+        unset($data['profile_pic']);
+        unset($data['location']);
+
+        $data['user_id'] = $id;
+
+        $this->common->insert(['table' => 'employees', 'data' => $data]);
+
         /********************************  FOR LOG ************************/
         $logData = [
-            'event'     => 'Add new occupation',
+            'event'     => 'Add new Employee',
             'user_id'   => $admin_id,
-            'req_data'  => json_encode($data),
-            'res_data'  => json_encode($newdata),
+            'req_data'  => json_encode($this->input->post()),
+            'res_data'  => json_encode($id),
         ];
         $this->common->insert(['table' => 'logs', 'data' => $logData]);
         /********************************  FOR LOG ************************/
 
-        die(json_encode(['status'=>'200','msg'=>'Occupation created successfuly']));
+        die(json_encode(['status'=>'200','msg'=>'Employee created successfuly']));
     }
 
     public function updateOccupation()
