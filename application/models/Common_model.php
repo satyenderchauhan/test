@@ -122,6 +122,18 @@ class Common_model extends CI_Model
         }
     }
 
+    public function delete($p)
+    {
+        $db = $this->load->database('default',true);
+        $qry = $db->delete($p['table'], $p['where']);
+        
+        if($db->affected_rows() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function checkUsername($uname)
     {
         $db = $this->load->database('default',true);

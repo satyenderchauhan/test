@@ -49,6 +49,24 @@ code {
 	border: 1px solid #D0D0D0;
 	box-shadow: 0 0 8px #D0D0D0;
 }
+.goBack{
+	cursor: pointer;
+	display: inline-block;
+	padding: 6px 12px;
+	margin-bottom: 0;
+	font-size: 14px;
+	font-weight: normal;
+	line-height: 1.42857143;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	touch-action: manipulation;
+	cursor: pointer;
+	-moz-user-select: none;
+	background-image: none;
+	border: 1px solid transparent;
+	border-radius: 4px;
+}
 
 p {
 	margin: 12px 15px 12px 15px;
@@ -57,8 +75,20 @@ p {
 </head>
 <body>
 	<div id="container">
-		<h1><?php echo $heading; ?></h1>
-		<?php echo $message; ?>
+		<div style="text-align: center;">
+		    <h1 class="font-bold"><?php echo $heading; ?></h1>
+
+		    <div class="error-desc">
+		        <?php echo $message; ?>
+
+		    	<button class="goBack" onclick="goBack()">Go back</button>
+		    </div>
+		</div>
 	</div>
+	<script type="text/javascript">
+		function goBack() {
+		   	window.history.back();
+		}
+	</script>
 </body>
 </html>
