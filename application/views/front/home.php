@@ -13,7 +13,7 @@
 
   <!-- Services -->
   <section class="page-section" id="services">
-    <div class="container" style="display:none;">
+    <div class="container firstDiv">
       <div class="row">
         <div class="col-lg-12 text-center">
           <h2 class="section-heading text-uppercase">Services</h2>
@@ -28,7 +28,7 @@
           </span>
           <h4 class="service-heading">Hire Verified Helper</h4>
           <p class="text-muted">Check profile of helpers in your location<br>Select best helper for your need<br>Interview them- try them - hire</p>
-          <p><a class="btn btn-primary text-uppercase">Click</a></p>
+          <p><a class="btn btn-primary text-uppercase searchBtn" style="cursor: pointer;">Search</a></p>
         </div>
         <div class="col-md-4">
           <span class="fa-stack fa-4x">
@@ -36,12 +36,12 @@
             <i class="fas fa-laptop fa-stack-1x fa-inverse"></i>
           </span>
           <h4 class="service-heading">मनपसंद काम पाओ - FREE</h4>
-          <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit.</p>
-          <p><a class="btn btn-primary text-uppercase">Click</a></p>
+          <p class="text-muted">एप्लीकेशन फॉर्म भरो<br>जॉब्स देखो - अप्लाई करो<br>एम्प्लॉयर्स से सीधे बात - बिना किसी फीस के</p>
+          <p><a class="btn btn-primary text-uppercase">Apply</a></p>
         </div>
       </div>
     </div>
-    <div class="container" style="display:block;">
+    <div class="container secondDiv" style="display:none;">
       <div class="row">
         <div class="col-lg-12 text-center">
           <h3 class="section-heading text-uppercase">What do you need?</h3>
@@ -396,3 +396,11 @@
   </div>
 
 <?php $this->view('front/templates/footer'); ?>
+
+<script type="text/javascript">
+  $('.searchBtn').click(function(){
+
+    $('.firstDiv').hide('slow');
+    $('.secondDiv').show('slow');
+  });
+</script>

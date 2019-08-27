@@ -20,7 +20,11 @@
   <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
 
   <!-- Custom styles for this template -->
-<link href="<?php echo base_url();?>assets/css/front/agency.css" rel="stylesheet" />
+  <link href="<?php echo base_url();?>assets/css/front/agency.css" rel="stylesheet" />
+  <link href="<?php echo base_url();?>assets/css/jquery-confirm.css" rel="stylesheet" />
+  <script>
+    bu ="<?php echo base_url();?>";
+  </script>
 </head>
 
 <body id="page-top">
@@ -28,7 +32,7 @@
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
     <div class="container">
-      <a class="navbar-brand js-scroll-trigger" href="#page-top">Logo</a>
+      <a class="navbar-brand js-scroll-trigger" href="<?php echo base_url();?>">Logo</a>
       <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         Menu
         <i class="fas fa-bars"></i>

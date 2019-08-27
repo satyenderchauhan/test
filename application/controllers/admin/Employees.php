@@ -8,7 +8,7 @@ class Employees extends CI_Controller {
         parent::__construct();
         $this->content_data['userData']=$this;
         
-        if(!$this->session->userdata('is_login')){
+        if(!$this->session->userdata('is_admin_login')){
             redirect(base_url());
         }
         $this->active ='';
@@ -17,7 +17,7 @@ class Employees extends CI_Controller {
 
 	public function index()
 	{
-		$this->active = 'employees';
+		$this->active = 'admin/employees';
 		$this->load->view('admin/employees');
 	}
 
@@ -139,7 +139,8 @@ class Employees extends CI_Controller {
         die(json_encode($output));
 	}
 
-    public function get_new_employee_html($uId = false){
+    public function get_new_employee_html($uId = false)
+    {
 
         $db = $this->load->database('default',true);
         $db->select('*')->from('occupation');

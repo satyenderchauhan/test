@@ -8,11 +8,11 @@ class Dashboard extends CI_Controller {
         parent::__construct();
         $this->content_data['userData']=$this;
         
-        if(!$this->session->userdata('is_login')){
-            redirect(base_url());
+        if(!$this->session->userdata('is_admin_login')){
+            redirect(base_url().'admin');
         }
 
-        $this->active ='';
+        $this->active ='admin/dashboard';
         $this->load->model('Common_model','common');
     }
 

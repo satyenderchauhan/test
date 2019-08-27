@@ -165,6 +165,13 @@ class Common_model extends CI_Model
         $db = $this->load->database('default',true);
         $db->select('*')->from('menu')->where('is_active', '1');
 
+        if($this->session->userdata('role') != 1){
+            $db->join('user_has_perms', 'menu.id = user_has_perms.perm_id');
+            $db->where('user_id',$this->session->userdata('user_id'));
+        }
+
+        $db->order_by('position', 'ASC');
+
         $qry = $db->get();
         if ($qry->num_rows() > 0) {
             return $qry->result();

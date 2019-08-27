@@ -8,7 +8,7 @@ class Occupations extends CI_Controller {
         parent::__construct();
         $this->content_data['userData']=$this;
         
-        if(!$this->session->userdata('is_login')){
+        if(!$this->session->userdata('is_admin_login')){
             redirect(base_url());
         }
         $this->active ='';
@@ -17,7 +17,7 @@ class Occupations extends CI_Controller {
 
 	public function index()
 	{
-		$this->active = 'occupations';
+		$this->active = 'admin/occupations';
 		$this->load->view('admin/occupation');
 	}
 

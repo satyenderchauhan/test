@@ -54,7 +54,7 @@
                 <ul class="nav" id="main-menu">
                     <li class="text-center">
                         <?php 
-                            $src = 'assets/img/find_user.png';
+                            $src = base_url().'assets/img/find_user.png';
                             if($this->session->userdata('profile_pic')){
                                 $src = 'data:image/png;base64,'.base64_encode($this->session->userdata('profile_pic'));
                             }

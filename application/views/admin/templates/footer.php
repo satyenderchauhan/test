@@ -47,7 +47,7 @@
                 onOpenBefore:function(){
 
                     var $this = this;
-                    $.post( bu+"admin/users/get_profile_html", {u_id:'1'}, function( data ) {
+                    $.post( bu+"admin/users/get_profile_html", {u_id: "<?php echo $this->session->userdata('user_id');?>"}, function( data ) {
                         $this.setContent('<br>'+data);
                     });
                 },

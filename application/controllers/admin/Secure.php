@@ -24,12 +24,23 @@ class Secure extends CI_Controller {
 
 			if($resp){
 
+                if(!$resp->status){
+                    $response = [
+                        'redirect_url'  => '',
+                        'message'       => 'Your account is currently disable, please contact admin.',
+                        'status'        => 202,
+                    ];
+
+                    die(json_encode($response));    
+                }
+
             	$sessionData = [
-            		'is_login' 	  => true,
+            		'is_admin_login' 	  => true,
             		'user_id'	  => $resp->id,
             		'name'		  => $resp->first_name.' '.$resp->last_name,
             		'mobile'	  => $this->input->post('username'),
                     'email'       => $resp->email,
+                    'role'        => $resp->role,
             		'profile_pic' => $resp->profile_pic,
             	];
 

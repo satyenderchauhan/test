@@ -62,4 +62,55 @@ class Search extends CI_Controller {
 
 		$this->load->view('front/list',$data);
 	}
+
+    public function get_user_data_html()
+    {
+        $emp_id = $_POST['u_id'];
+
+        if(!$emp_id){
+            die('ere');
+        }
+        
+        $db = $this->load->database('default',true);
+        
+        $db->select('*')->from('employees')->where('user_id',$emp_id);
+        $empqry = $db->get();
+        if ($empqry->num_rows() > 0) {
+            $data['emp_data'] = $empqry->row();
+        } else {
+            die('aaggaga');
+        }
+
+        $db->select('profile_pic')->from('user_accounts')->where('id',$emp_id);
+        $empqryImg = $db->get();
+        if ($empqryImg->num_rows() > 0) {
+            $data['profile_pic'] = $empqryImg->row();
+        } else {
+            $data['profile_pic'] = '';
+        }
+
+        $db->select('*')->from('employee_occupation')->where('user_id',$emp_id);
+        $empqry1 = $db->get();
+        if ($empqry1->num_rows() > 0) {
+            $data['selected_occupation'] = implode(', ',array_column($empqry1->result(), 'occupation'));
+        } else {
+            $data['selected_occupation'] = [];
+        }
+
+        $db->select('*')->from('employee_locations')->where('user_id',$emp_id);
+        $emplocqry = $db->get();
+        if ($emplocqry->num_rows() > 0) {
+            $data['selected_location'] = array_column($emplocqry->result(), 'location');
+        } else {
+            $data['selected_location'] = [];
+        }
+
+        $data['emp_id'] = $emp_id;
+
+        /*echo '<pre>';
+        print_r($data);
+        die;*/
+
+        $this->load->view('front/popup_forms/emp_data', $data);
+    }
 }
